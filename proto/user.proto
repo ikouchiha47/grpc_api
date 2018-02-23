@@ -1,0 +1,58 @@
+syntax = "proto3";
+package proto;
+
+service UserService {
+  rpc AddUser(AddUserRequest) returns (UserResponse) {}
+  rpc LoginUser(LoginUserRequest) returns (UserResponse) {}
+  rpc GetUser(GetUserRequest) returns (UserResponse) {}
+}
+
+message Empty {
+}
+
+message AddUserRequest {
+  string email = 1;
+  string password = 2;
+  string name = 3;
+}
+
+message GetUserRequest {
+  map<string, string> headers = 1;
+  map<string, string> params = 2;
+}
+
+message LoginUserRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message User {
+  int64 id = 1;
+  string name = 2;
+  string email = 3;
+  string access_token = 4;
+}
+
+message Users {
+  repeated User users = 1;
+}
+
+message Error {
+  string reason = 1;
+}
+
+message UserResponse {
+  bool success = 1;
+  oneof data {
+    User user = 2;
+    Error error = 3;
+  }
+}
+
+message UsersResponse {
+  bool success = 1;
+  oneof data {
+    Users users = 2;
+    Error error = 3;
+  }
+}
